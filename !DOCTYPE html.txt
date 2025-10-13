@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Video Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="video-container">
+        <video id="customVideo" src="your_video_file.mp4"></video>
+        
+        <div id="controls">
+            <button id="playPauseBtn">▶️ Play</button>
+            <input type="range" id="progressBar" value="0" min="0" max="100">
+            <input type="range" id="volumeSlider" value="1" min="0" max="1" step="0.1">
+            <button id="fullscreenBtn">📺 Fullscreen</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+CSS
+
+/* Basic CSS to hide the video controls and style the container/controls */
+#customVideo {
+    width: 100%;
+}
+
+/* Hide the default controls (optional, but good practice) */
+#customVideo::-webkit-media-controls { display: none !important; }
+#customVideo::controls { display: none !important; }
+
+#controls {
+    display: flex; /* Arrange buttons horizontally */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+}
+
+/* Add more styles for buttons, progress bar, etc. */
+
+JAVA SCRIPT
+
+
+const video = document.getElementById('customVideo');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const progressBar = document.getElementById('progressBar');
+
+// 1. Play/Pause Functionality
+playPauseBtn.addEventListener('click', () => {
+    if (video.paused || video.ended) {
+        video.play();
+        playPauseBtn.textContent = '⏸️ Pause';
+    } else {
+        video.pause();
+        playPauseBtn.textContent = '▶️ Play';
+    }
+});
+
+// 2. Progress Bar Update
+video.addEventListener('loadedmetadata', () => {
+    progressBar.max = video.duration;
+});
+
+video.addEventListener('timeupdate', () => {
+    progressBar.value = video.currentTime;
+});
+
+progressBar.addEventListener('input', () => {
+    video.currentTime = progressBar.value;
+});
+
+// (Similar listeners for Volume and Fullscreen)
